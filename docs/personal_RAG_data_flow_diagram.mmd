@@ -1,0 +1,32 @@
+flowchart TD
+  U[User]
+  CLI[CLI (`main.py`)]
+  DocDir[Documents Directory<br/>`documents/`]
+  Parser[Document Parser<br/>`src/document_parser.py`]
+  Chunker[Chunking<br/>`src/embedder.py`]
+  Embedder[Embedding Model<br/>`all-MiniLM-L6-v2`]
+  VectorDB[Vector Database<br/>`src/vector_store.py`]
+  Store[Save/Load Index<br/>`data/vector_store.index`, `data/vector_store.pkl`]
+  Query[Query Input]
+  Retriever[Retriever<br/>`src/retriever.py`]
+  LLM[LLM Response Generator<br/>Ollama `llama3.2:3b`]
+  Answer[Generated Answer]
+
+  U --> CLI
+  CLI -->|build| DocDir
+  DocDir --> Parser
+  Parser --> Chunker
+  Chunker --> Embedder
+  Embedder --> VectorDB
+  VectorDB --> Store
+  Store -->|index built| CLI
+
+  U --> CLI
+  CLI -->|query| Query
+  Query --> Embedder
+  Embedder --> VectorDB
+  VectorDB --> Retriever
+  Retriever --> LLM
+  LLM --> Answer
+  Answer --> CLI
+  CLI --> U

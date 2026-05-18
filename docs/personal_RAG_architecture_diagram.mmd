@@ -1,0 +1,19 @@
+flowchart LR
+  User["User"]
+  CLI["CLI (`main.py`)"]
+  Loader["Document Loader / Parser<br/>(`src/document_parser.py`)"]
+  Chunker["Chunking / Chunk Generator<br/>(`src/embedder.py`)"]
+  Embedder["Embedding Model<br/>(sentence-transformers / all-MiniLM-L6-v2)"]
+  VectorDB["Vector Database<br/>(FAISS / `src/vector_store.py` / `data/vector_store`)"]
+  Retriever["Retriever<br/>(`src/retriever.py` / `LLMRetriever`)"]
+  LLM["LLM Response Generator<br/>(Ollama / llama3.2:3b)"]
+
+  User --> CLI
+  CLI --> Loader
+  Loader --> Chunker
+  Chunker --> Embedder
+  Embedder --> VectorDB
+  CLI --> Retriever
+  Retriever --> VectorDB
+  Retriever --> LLM
+  LLM --> CLI
