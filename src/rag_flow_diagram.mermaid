@@ -1,0 +1,50 @@
+graph TD
+    A["Documents Directory<br/>PDFs, DOCX, TXT"] --> B["Document Parser<br/>Extract text content"]
+    
+    B --> C["Text Chunker<br/>Split into overlapping chunks<br/>500 words, 50 overlap"]
+    
+    C --> D["Sentence Transformer<br/>all-MiniLM-L6-v2<br/>Create embeddings"]
+    
+    D --> E["FAISS Vector Store<br/>Store embeddings + metadata<br/>Cosine similarity search"]
+    
+    E --> F["Save Index<br/>Persistent storage<br/>vector_store.index + .pkl"]
+    
+    F --> G["RAG System Ready<br/>Index built successfully"]
+    
+    H["User Query<br/>What are the main findings?"] --> I["Query Embedder<br/>Convert query to embedding"]
+    
+    I --> J["Vector Search<br/>Find top-k similar chunks<br/>Default k=3"]
+    
+    J --> K["Context Retrieval<br/>Get relevant chunks + metadata"]
+    
+    K --> L["Ollama LLM<br/>llama3.2:3b<br/>Local inference"]
+    
+    L --> M["Generated Response<br/>Answer based on context"]
+    
+    N["Summarize Request<br/>summarize"] --> O["Sample Query<br/>Generic query for chunk selection"]
+    
+    O --> P["Top-k Chunks<br/>Representative content<br/>Default k=5"]
+    
+    P --> Q["Ollama LLM<br/>Summarization prompt"]
+    
+    Q --> R["Document Summary<br/>Comprehensive overview"]
+    
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style M fill:#fff3e0
+    style R fill:#fff3e0
+    style E fill:#f3e5f5
+    style L fill:#ffecb3
+    style Q fill:#ffecb3
+    
+    classDef inputNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef processNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef storageNode fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef llmNode fill:#ffecb3,stroke:#e65100,stroke-width:2px
+    classDef outputNode fill:#fff3e0,stroke:#bf360c,stroke-width:2px
+    
+    class A,H,N inputNode
+    class B,C,D,I,J,K,O,P processNode
+    class E,F storageNode
+    class L,Q llmNode
+    class G,M,R outputNode
