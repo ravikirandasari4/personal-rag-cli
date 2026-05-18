@@ -40,7 +40,7 @@ The project is designed around a command-line interface in `main.py` and modular
 Recommended Python dependencies:
 
 ```bash
-pip install sentence-transformers faiss-cpu pypdf python-docx ollama
+pip install -r requirements.txt
 ```
 
 > If you use a GPU or a different FAISS build, install the appropriate `faiss` package for your environment.
@@ -56,10 +56,10 @@ pip install sentence-transformers faiss-cpu pypdf python-docx ollama
 
 ## Usage
 
-Run the CLI from the `personal_rag` folder:
+Run the CLI from the repository root:
 
 ```bash
-python main.py
+python3 main.py
 ```
 
 Then use one of the supported commands:

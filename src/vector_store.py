@@ -20,6 +20,9 @@ class VectorStore:
     """Add embeddings to the vector store."""
     def add_embeddings(self, embeddings: np.ndarray, chunks: List[str], metadata: List[Dict]):
         """Add embeddings to the vector store."""
+        if embeddings.size == 0:
+            print("No embeddings to add to vector store.")
+            return
         # Normalize embeddings for cosine similarity
         faiss.normalize_L2(embeddings)
         
@@ -32,6 +35,8 @@ class VectorStore:
     """Search for similar documents."""
     def search(self, query_embedding: np.ndarray, k: int = 5) -> List[Dict]:
         """Search for similar documents."""
+        if query_embedding.size == 0 or self.index.ntotal == 0:
+            return []
         # Normalize query embedding
         faiss.normalize_L2(query_embedding.reshape(1, -1))
         

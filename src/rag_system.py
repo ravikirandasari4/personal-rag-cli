@@ -11,7 +11,7 @@ experience for indexing and querying personal documents.
 """
 class PersonalRAG:
     """Initialize the RAG system components."""
-    def __init__(self, model_name: str = "llama3.2"):
+    def __init__(self, model_name: str = "llama3.2:3b"):
         self.parser = DocumentParser()
         self.embedder = TextEmbedder()
         self.vector_store = VectorStore(self.embedder.embedding_dim)
@@ -27,8 +27,16 @@ class PersonalRAG:
         documents = self.parser.parse_directory(documents_dir)
         print(f"Parsed {len(documents)} documents")
         
+        if not documents:
+            print("No supported documents found. Please add .txt, .pdf, or .docx files to the documents directory.")
+            return
+        
         # Create embeddings
         processed_data = self.embedder.process_documents(documents)
+        
+        if processed_data['embeddings'].size == 0:
+            print("No text chunks were generated from the documents. Please verify document contents.")
+            return
         
         # Add to vector store
         self.vector_store.add_embeddings(
@@ -47,7 +55,7 @@ class PersonalRAG:
     """Load an existing vector index from disk."""
     def load_index(self, save_path: str = "data/vector_store"):
         """Load existing vector index."""
-        if os.path.exists(f"{save_path}.index"):
+        if os.path.exists(f"{save_path}.index") and os.path.exists(f"{save_path}.pkl"):
             self.vector_store.load(save_path)
             self.is_indexed = True
             print("Index loaded successfully!")

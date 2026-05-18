@@ -29,8 +29,10 @@ class TextEmbedder:
     """Create embeddings for a list of texts."""
     def create_embeddings(self, texts: List[str]) -> np.ndarray:
         print(f"Creating embeddings for {len(texts)} text chunks...")
+        if not texts:
+            return np.zeros((0, self.embedding_dim), dtype=np.float32)
         embeddings = self.model.encode(texts, show_progress_bar=True)
-        return embeddings
+        return np.asarray(embeddings, dtype=np.float32)
     
     """Process documents into chunks with embeddings and metadata."""
     def process_documents(self, documents: List[Dict[str, str]]) -> Dict:
@@ -50,6 +52,13 @@ class TextEmbedder:
                     'content': chunk
                 })
         
+        if not all_chunks:
+            return {
+                'chunks': [],
+                'embeddings': np.zeros((0, self.embedding_dim), dtype=np.float32),
+                'metadata': []
+            }
+
         embeddings = self.create_embeddings(all_chunks)
         
         return {

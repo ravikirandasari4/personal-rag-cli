@@ -5,8 +5,9 @@ def main():
     # Initialize RAG system
     rag = PersonalRAG()
     
-    # Create documents directory if it doesn't exist
+    # Create documents and data directories if they don't exist
     os.makedirs("documents", exist_ok=True)
+    os.makedirs("data", exist_ok=True)
     
     print("Personal RAG System")
     print("==================")

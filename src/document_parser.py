@@ -45,7 +45,8 @@ class DocumentParser:
                 for page_num, page in enumerate(pdf_reader.pages):
                     try:
                         page_text = page.extract_text()
-                        text += page_text + "\n"
+                        if page_text:
+                            text += page_text + "\n"
                     except Exception as e:
                         print(f"Error reading page {page_num + 1} of {os.path.basename(file_path)}: {e}")
                         continue
