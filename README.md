@@ -1,9 +1,5 @@
-# personal_RAG_CLI
+# personal-rag-cli
 A minimal personal RAG CLI system for building a document vector index, querying with natural language, and summarizing source documents. Includes parser, embedder, vector store, and LLM retriever components for self-hosted knowledge retrieval response generation pipelines CLI ready.
-
-# personal_rag
-
-A lightweight Python personal Retrieval-Augmented Generation (RAG) system for building a searchable semantic index over documents and asking natural language questions.
 
 ## Overview
 
